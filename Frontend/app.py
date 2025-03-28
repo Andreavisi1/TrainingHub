@@ -396,7 +396,7 @@ users_db = {
         "is_admin": False
     },
     "admin@example.com": {
-        "name": "Admin User",
+        "name": "Manager",
         "password": generate_password_hash("admin123"),
         "user_id": 2,
         "is_admin": True

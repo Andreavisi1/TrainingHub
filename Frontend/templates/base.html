@@ -38,7 +38,7 @@
                         <!-- Sezione Dashboard Manager - visibile solo agli admin -->
                         {% if session.is_admin %}
                         <a href="{{ url_for('manager_dashboard') }}" class="nav-link {% if request.path == url_for('manager_dashboard') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">
-                            <i class="fas fa-chart-line mr-1"></i> Dashboard Manager
+                            <i class="fas fa-chart-line mr-1"></i> Gestione azienda
                         </a>
                         {% endif %}
                         
@@ -74,6 +74,7 @@
                                     <span class="ml-2 text-white font-medium">Manager</span>
                                     {% else %}
                                     <span class="ml-2 text-white font-medium">
+
                                         {% if session.user_name %}
                                             {{ session.user_name }}
                                         {% else %}
@@ -83,9 +84,9 @@
                                     {% endif %}
                                     
                                     <!-- Team badge con colore dinamico -->
-                                    <div class="ml-2 {% if request.path == url_for('skills') or request.path == url_for('manager_dashboard') %}bg-red-500{% else %}bg-green-400{% endif %} rounded-full p-2 text-xs text-white font-bold">
+                                    <div class="ml-2 {% if session.is_admin %}bg-red-500{% else %}bg-green-400{% endif %} rounded-full p-2 text-xs text-white font-bold">
                                         <!-- Team dinamico basato sulla pagina corrente -->
-                                        {% if request.path == url_for('skills') or request.path == url_for('manager_dashboard') %}
+                                        {% if session.is_admin %}
                                         Sezione Admin
                                         {% else %}
                                         Team Sviluppo

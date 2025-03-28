@@ -153,8 +153,16 @@
             <div class="flex flex-col md:flex-row items-start">
                 <div class="md:w-2/3 mb-6 md:mb-0 md:pr-6">
                     <div class="aspect-w-16 aspect-h-9 mb-4 bg-gray-200 rounded-lg">
-                        <div class="w-full h-56 bg-gray-300 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-play-circle text-gray-400 text-5xl"></i>
+                        <!-- Video Embed che sostituisce l'icona placeholder -->
+                        <div class="w-full h-56 rounded-lg overflow-hidden">
+                            <iframe 
+                                class="w-full h-full"
+                                src="https://embed.ted.com/talks/tim_urban_inside_the_mind_of_a_master_procrastinator"
+                                title="Video di anteprima del corso sulla gestione del tempo"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     </div>
                     <h4 class="text-lg font-semibold text-gray-800 mb-2">Anteprima del Corso</h4>
