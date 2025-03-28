@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  cv-skills-extractor:
+    build: .
+    volumes:
+      - ./input:/app/input          # Directory per i CV da analizzare
+      - ./models:/app/models       # Directory per i modelli Llama
+      - ./output:/app/output       # Directory per i file di output
+    command: >
+      --cv /app/input/MarcoRossi.txt
+      --model /app/models/Meta-Llama-3-8B-Instruct.Q2_K.gguf 
+      --output /app/output/skills.json

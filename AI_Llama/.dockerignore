@@ -1,0 +1,30 @@
+# Ignora file di sistema
+.git/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignora cartelle di build
+build/
+dist/
+
+# Ignora file di configurazione locali
+.env
+.dockerignore
+
+# Ignora file temporanei o di log
+*.log
+*.tmp
+
+# Ignora cartelle specifiche di IDE
+.idea/
+.vscode/
+
+# Ignora file di test (se non sono necessari)
+tests/
+
+# Ignora la cartella contenente il modello Llama
+models/
+input/
+output/

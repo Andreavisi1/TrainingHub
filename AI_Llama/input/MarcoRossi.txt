@@ -1,0 +1,109 @@
+Marco Rossi
+Indirizzo: Via Roma 123, 20100 Milano, Italia
+Telefono: +39 333 1234567
+Email: marco.rossi@email.com
+LinkedIn: linkedin.com/in/marcorossi
+GitHub: github.com/marcorossi
+Profilo Professionale
+Sviluppatore software full-stack con 5 anni di esperienza nella progettazione, sviluppo e implementazione di applicazioni web e mobile. Specializzato in tecnologie cloud e DevOps, con particolare interesse per l'intelligenza artificiale e il machine learning.
+Esperienze Professionali
+Senior Developer
+TechSolutions Srl | Milano, Italia
+Gennaio 2021 - Presente
+
+Sviluppo di microservizi basati su container utilizzando Docker e Kubernetes
+Implementazione di CI/CD pipeline con GitLab e Jenkins
+Progettazione e sviluppo di applicazioni cloud-native su AWS
+Mentoring di sviluppatori junior e coordinamento di team di 5 persone
+Ottimizzazione delle prestazioni delle applicazioni esistenti, migliorando i tempi di risposta del 40%
+
+Web Developer
+Digital Innovation SpA | Roma, Italia
+Marzo 2018 - Dicembre 2020
+
+Sviluppo frontend con React.js e backend con Node.js
+Creazione di API RESTful e GraphQL per servizi web
+Implementazione di database relazionali (PostgreSQL) e NoSQL (MongoDB)
+Collaborazione in team Agile con metodologia Scrum
+Partecipazione a review di codice e sessioni di pair programming
+
+Formazione
+Laurea Magistrale in Ingegneria Informatica
+Politecnico di Milano | Milano, Italia
+2015 - 2017
+
+Tesi: "Implementazione di algoritmi di machine learning per la previsione del traffico urbano"
+Voto: 110/110 cum laude
+
+Laurea Triennale in Informatica
+Università La Sapienza | Roma, Italia
+2012 - 2015
+
+Voto: 105/110
+
+Competenze Tecniche
+Linguaggi di Programmazione
+
+Python (avanzato)
+JavaScript/TypeScript (avanzato)
+Java (intermedio)
+C# (base)
+SQL (avanzato)
+
+Frameworks e Librerie
+
+React.js, Vue.js
+Node.js, Express.js
+Django, Flask
+Spring Boot
+TensorFlow, PyTorch
+
+DevOps e Cloud
+
+Docker, Kubernetes
+AWS (EC2, S3, Lambda, RDS, ECS)
+CI/CD (Jenkins, GitLab CI, GitHub Actions)
+Terraform, Ansible
+
+Database
+
+PostgreSQL, MySQL
+MongoDB, Redis
+Elasticsearch
+
+Certificazioni
+
+AWS Certified Solutions Architect - Associate (2022)
+Docker Certified Associate (2021)
+Microsoft Certified: Azure Developer Associate (2020)
+MongoDB Certified Developer (2019)
+
+Lingue
+
+Italiano: Madrelingua
+Inglese: Fluente (C1) - Cambridge Advanced Certificate
+Spagnolo: Intermedio (B1)
+
+Soft Skills
+
+Problem solving
+Leadership e gestione team
+Comunicazione efficace
+Adattabilità
+Pensiero critico
+Lavoro in team
+Gestione del tempo
+Capacità di presentazione
+
+Progetti Personali
+
+AI-Fitness: App mobile per il monitoraggio dell'allenamento con suggerimenti basati su AI
+EcoTrack: Piattaforma web per il monitoraggio dell'impronta di carbonio personale
+OpenLibrary: Contributo a progetti open source per la gestione di biblioteche digitali
+
+Interessi
+
+Machine Learning e Intelligenza Artificiale
+Sostenibilità e tecnologie green
+Escursionismo e fotografia
+Suonare la chitarra
