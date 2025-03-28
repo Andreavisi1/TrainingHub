@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TrainingHub{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center">
+        <div class="w-24 h-24 mb-4">
+            <svg class="progress-ring" width="120" height="120">
+                <circle class="progress-ring__circle" stroke="#4F46E5" stroke-width="8" fill="transparent" r="45" cx="60" cy="60" style="--percent: 0"/>
+            </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-800">Caricamento TrainingHub</h2>
+        <p id="loading-text" class="text-gray-500">Inizializzazione...</p>
+    </div>
+
+    <div id="app" class="hidden">
+        <!-- Header -->
+
+        <header class="bg-indigo-600 shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-white text-2xl font-bold">Training<span class="text-indigo-200">Hub</span></span>
+                    </div>
+                    <nav class="ml-10 hidden md:flex space-x-8">
+                        <!-- Sezioni sempre visibili -->
+                        <a href="{{ url_for('dashboard') }}" class="nav-link {% if request.path == url_for('dashboard') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                        
+                        <a href="{{ url_for('onboarding') }}" class="nav-link {% if request.path == url_for('onboarding') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Onboarding</a>
+                        
+                        <a href="{{ url_for('learning') }}" class="nav-link {% if request.path == url_for('learning') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Percorsi Formativi</a>
+                        
+                        <!-- Sezione Skills - visibile solo nella pagina skills o se request.show_skills è True -->
+                        {% if request.path == url_for('skills') or request.show_skills %}
+                        <a href="{{ url_for('skills') }}" class="nav-link {% if request.path == url_for('skills') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Gestione Azienda</a>
+                        {% endif %}
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <div class="hidden md:flex items-center">
+                        <div class="relative">
+                            <button id="notifications-btn" class="text-white p-1 rounded-full hover:bg-indigo-700 focus:outline-none">
+                                <i class="fas fa-bell"></i>
+                                <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400"></span>
+                            </button>
+                        </div>
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <div class="ml-3 relative">
+                                <div class="flex items-center">
+                                    <div class="bg-indigo-300 rounded-full h-8 w-8 flex items-center justify-center text-indigo-800 font-semibold">M</div>
+                                    
+                                    <!-- Nome dinamico basato sulla pagina corrente -->
+                                    {% if request.path == url_for('skills') %}
+                                    <span class="ml-2 text-white font-medium">Manager</span>
+                                    {% else %}
+                                    <span class="ml-2 text-white font-medium">{{ user.name }}</span>
+                                    {% endif %}
+                                    
+                                        <!-- Team badge con colore dinamico -->
+                                        <div class="ml-2 {% if request.path == url_for('skills') %}bg-red-500{% else %}bg-green-400{% endif %} rounded-full p-2 text-xs text-white font-bold">
+                                            <!-- Team dinamico basato sulla pagina corrente -->
+                                            {% if request.path == url_for('skills') %}
+                                            Sezione Admin
+                                            {% else %}
+                                            Team Sviluppo
+                                            {% endif %}
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-50 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <span class="text-indigo-600 text-lg font-bold">Training<span class="text-indigo-400">Hub</span></span>
+                        <span class="ml-2 text-gray-500 text-sm">© 2024 Company Inc.</span>
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <span class="text-sm">Help Center</span>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <span class="text-sm">Privacy Policy</span>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <span class="text-sm">Terms of Service</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+    // Direct initialization without loading animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const app = document.getElementById('app');
+
+        // Immediately hide loading overlay and show app
+        loadingOverlay.style.display = 'none';
+        app.classList.remove('hidden');
+    });
+    </script>
+
+    {% block additional_scripts %}{% endblock %}
+</body>
+</html>

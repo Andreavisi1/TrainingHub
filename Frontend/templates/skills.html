@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Le mie Skills - TrainingHub{% endblock %}
+
+{% block content %}
+<section id="skills-section" class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Le mie Skills</h1>
+        <div>
+            <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700">
+                Aggiungi skill
+            </button>
+        </div>
+    </div>
+
+    <!-- Skills Overview -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <!-- Hard Skills -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-2">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                Hard Skills
+            </h3>
+            <div class="space-y-4">
+                {% for skill in skills.hard_skills %}
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">{{ skill.name }}</span>
+                        <span class="text-sm text-gray-500">{{ skill.level_text }} ({{ skill.level }}%)</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: {{ skill.level }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="mt-4 text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                Visualizza tutte →
+            </button>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center">
+                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-2">
+                    <i class="fas fa-brain"></i>
+                </div>
+                Soft Skills
+            </h3>
+            <div class="space-y-4">
+                {% for skill in skills.soft_skills %}
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <span class="text-sm font-medium text-gray-700">{{ skill.name }}</span>
+                        <span class="text-sm text-gray-500">{{ skill.level_text }} ({{ skill.level }}%)</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-600 h-2 rounded-full" style="width: {{ skill.level }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="mt-4 text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                Visualizza tutte →
+            </button>
+        </div>
+    </div>
+
+    <!-- Skill Development -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Sviluppo Skills in Corso</h3>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skill</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progressione</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for skill in skills.developing_skills %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ skill.name }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full {% if skill.type == 'Soft Skill' %}bg-green-100 text-green-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                                {{ skill.type }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-full bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-indigo-600 h-2 rounded-full" style="width: {{ skill.progress }}%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ skill.progress }}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button class="text-indigo-600 hover:text-indigo-900">
+                                Continua
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Gamification: Role-Play Simulation -->
+    <div class="bg-indigo-50 rounded-xl shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-indigo-800">Simulazione Soft Skills: Negoziazione</h3>
+            <div class="px-2 py-1 bg-indigo-200 text-indigo-800 rounded-full text-xs">New</div>
+        </div>
+
+        <p class="text-indigo-900 mb-6">Metti alla prova le tue competenze di negoziazione in uno scenario realistico. Completa la simulazione per guadagnare XP e il badge "Master Negoziatore".</p>
+
+        <div class="bg-white rounded-lg p-5 mb-6">
+            <div class="mb-4">
+                <h4 class="text-gray-800 font-medium mb-2">Scenario:</h4>
+                <p class="text-gray-600 text-sm">Sei responsabile dell'acquisto di nuove attrezzature IT. Il fornitore ha proposto un prezzo superiore al budget. Devi negoziare per ottenere un accordo migliore mantenendo una buona relazione.</p>
+            </div>
+            <div class="mb-4">
+                <h4 class="text-gray-800 font-medium mb-2">Obiettivi:</h4>
+                <ul class="text-gray-600 text-sm list-disc pl-5 space-y-1">
+                    <li>Ottenere uno sconto del 15% sul prezzo iniziale</li>
+                    <li>Negoziare migliori termini di supporto tecnico</li>
+                    <li>Mantenere una relazione positiva per collaborazioni future</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flex justify-center">
+            <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
+                Inizia Simulazione
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Pulsante Chat di Supporto -->
+<div class="fixed bottom-6 right-6 z-50">
+    <!-- Pulsante principale chat -->
+    <button id="supportChatBtn" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none">
+        <i class="fas fa-comments text-xl"></i>
+    </button>
+    
+    <!-- Finestra chat (inizialmente nascosta) -->
+    <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
+        <!-- Header chat -->
+        <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-headset mr-2"></i>
+                <h3 class="font-medium">Supporto TrainingHub</h3>
+            </div>
+            <button id="closeChatBtn" class="text-white hover:text-gray-200 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Corpo chat -->
+        <div class="h-80 overflow-y-auto p-4 bg-gray-50" id="chatMessages">
+            <!-- Messaggio di benvenuto -->
+            <div class="flex mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                    <p class="text-sm text-gray-700">Ciao! Come posso aiutarti oggi con TrainingHub?</p>
+                    <span class="text-xs text-gray-500 mt-1 block">14:32</span>
+                </div>
+            </div>
+            
+            <!-- Suggerimenti rapidi -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Come trovo i corsi?</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Problemi con un task</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Aggiornare skills</button>
+            </div>
+        </div>
+        
+        <!-- Input messaggio -->
+        <div class="p-3 border-t border-gray-200">
+            <div class="flex">
+                <input type="text" id="chatInput" placeholder="Scrivi un messaggio..." class="flex-1 border border-gray-300 rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                <button id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg focus:outline-none transition-colors">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script per la funzionalità della chat -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const supportChatBtn = document.getElementById('supportChatBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Apri la chat
+        supportChatBtn.addEventListener('click', function() {
+            chatWindow.classList.remove('hidden', 'scale-95', 'opacity-0');
+            chatWindow.classList.add('scale-100', 'opacity-100');
+            chatInput.focus();
+        });
+        
+        // Chiudi la chat
+        closeChatBtn.addEventListener('click', function() {
+            chatWindow.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                chatWindow.classList.add('hidden');
+            }, 300);
+        });
+        
+        // Invia messaggio quando si preme invio
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Invia messaggio quando si clicca il pulsante
+        sendMessageBtn.addEventListener('click', sendMessage);
+        
+        // Funzione per inviare un messaggio
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Aggiungi messaggio dell'utente
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const userMessageHTML = `
+                    <div class="flex justify-end mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg shadow-sm max-w-64 ml-2">
+                            <p class="text-sm text-white">${message}</p>
+                            <span class="text-xs text-blue-100 mt-1 block text-right">${time}</span>
+                        </div>
+                    </div>
+                `;
+                chatMessages.insertAdjacentHTML('beforeend', userMessageHTML);
+                
+                // Pulisci input
+                chatInput.value = '';
+                
+                // Simula risposta automatica dopo un breve ritardo
+                setTimeout(() => {
+                    const botMessageHTML = `
+                        <div class="flex mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                                <p class="text-sm text-gray-700">Grazie per la tua richiesta. Un operatore risponderà al più presto. Nel frattempo, puoi consultare la documentazione nel nostro centro assistenza.</p>
+                                <span class="text-xs text-gray-500 mt-1 block">${time}</span>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.insertAdjacentHTML('beforeend', botMessageHTML);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Gestione dei suggerimenti rapidi
+        document.querySelectorAll('#chatMessages button').forEach(button => {
+            button.addEventListener('click', function() {
+                chatInput.value = this.textContent;
+                sendMessage();
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,410 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - TrainingHub{% endblock %}
+
+{% block content %}
+<!-- Dashboard Section -->
+<section id="dashboard-section" class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Dashboard Personale</h1>
+        <div class="text-sm text-gray-500">Ultimo accesso: oggi alle 09:45</div>
+    </div>
+
+        <!-- Badge Showcase and Skills Radar Chart -->
+        <div class="flex gap-6 mb-8">
+            <!-- Technical Skills Showcase (50%) -->
+            <div class="w-1/2 bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Le Tue Competenze Tecniche</h3>
+                <div class="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                    <!-- Python Avanzato -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl mb-2">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Python Avanzato</span>
+                    </div>
+                    <!-- SQL Base -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-2xl mb-2">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">SQL Base</span>
+                    </div>
+                    <!-- Rasa Avanzato -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-2xl mb-2">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Rasa Avanzato</span>
+                    </div>
+                    <!-- Machine Learning -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 text-2xl mb-2">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Machine Learning</span>
+                    </div>
+                    <!-- Git e Versioning -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-2xl mb-2">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Git & Versioning</span>
+                    </div>
+                    <!-- Docker e Kubernetes -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-2xl mb-2">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Docker & K8s</span>
+                    </div>
+                    <!-- NLP -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 text-2xl mb-2">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">NLP</span>
+                    </div>
+                    <!-- Altre Skill -->
+                    <div class="flex flex-col items-center">
+                        <div class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs mb-2">
+                            <span>{{ user.skills_count - 7 }}</span>
+                        </div>
+                        <span class="text-xs text-gray-700 text-center">Altre Competenze</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills Radar Chart (50%) -->
+            <div class="w-1/2 bg-white rounded-xl shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Le Tue Competenze</h3>
+                <div class="flex justify-center">
+                    <div class="w-full h-64 flex justify-center items-center" data-clickable="false">
+                        <!-- Canvas for chart -->
+                        <canvas id="skillsRadarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Importa lo script dopo la definizione del canvas -->
+        <script src="skills-chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const chartContainer = document.querySelector("[data-clickable]");
+                const isClickable = chartContainer.getAttribute("data-clickable") === "true";
+
+                createSkillsRadarChart(isClickable); // Richiama la funzione con il parametro giusto
+            });
+        </script>
+
+
+        <!-- Importa lo script dopo la definizione del canvas -->
+        <script src="skills-chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const chartContainer = document.querySelector("[data-clickable]");
+                const isClickable = chartContainer.getAttribute("data-clickable") === "true";
+
+                createSkillsRadarChart(isClickable); // Richiama la funzione con il parametro giusto
+            });
+        </script>
+
+
+        <!-- Importa lo script dopo la definizione del canvas -->
+        <script src="skills-chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const chartContainer = document.querySelector("[data-clickable]");
+                const isClickable = chartContainer.getAttribute("data-clickable") === "true";
+
+                createSkillsRadarChart(isClickable); // Richiama la funzione con il parametro giusto
+            });
+        </script>
+
+    </div>
+
+    <!-- Task assegnati -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">Task Assegnati ed In Corso</h3>
+            <span class="text-sm text-blue-600 hover:text-blue-800 cursor-pointer">
+                <i class="fas fa-sync-alt mr-1"></i>Aggiorna
+            </span>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priorità</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Titolo</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deadline</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stato</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for task in user_tasks %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                {% if task.priority == 'Alta' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Alta</span>
+                                {% elif task.priority == 'Media' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Media</span>
+                                {% else %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Bassa</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            <a href="{{ url_for('task_detail', task_id=task.id) }}" class="text-blue-600 hover:text-blue-900">{{ task.title }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ task.team }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <span class="{% if task.days_remaining <= 2 %}text-red-600 font-medium{% endif %}">
+                                {{ task.deadline }}
+                                {% if task.days_remaining <= 2 %}
+                                <i class="fas fa-exclamation-circle ml-1"></i>
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 rounded-full mr-2 
+                                    {% if task.status == 'Completato' %}bg-green-500
+                                    {% elif task.status == 'In corso' %}bg-blue-500
+                                    {% elif task.status == 'In attesa' %}bg-yellow-500
+                                    {% elif task.status == 'Bloccato' %}bg-red-500
+                                    {% endif %}">
+                                </div>
+                                <span class="text-sm text-gray-900">{{ task.status }}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="{{ url_for('task_detail', task_id=task.id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                <i class="fas fa-info-circle"></i> Dettagli
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Corsi consigliati per migliorare le skills -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-700">Corsi Consigliati per le Tue Skills</h3>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-3">Filtra per:</span>
+                <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                    <option value="all">Tutte le categorie</option>
+                    <option value="tech">Tecnologia</option>
+                    <option value="soft">Soft Skills</option>
+                    <option value="management">Management</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for course in recommended_courses %}
+            <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+                <div class="relative">
+                    <div class=" h-36 flex items-center justify-center">
+
+                        <img src="{{ url_for('static', filename='platform_logos/' + course.topic) }}" alt="{{ course.platform }}" class=" h-36 ">
+
+                    </div>
+                    <div class="absolute top-3 right-3 
+                        {% if course.priority == 'Alta' %}bg-yellow-400 text-gray-900
+                        {% elif course.priority == 'Media' %}bg-blue-400 text-white
+                        {% else %}bg-green-400 text-gray-900{% endif %} 
+                        text-xs font-bold px-2 py-1 rounded">
+                        {{ course.priority }} PRIORITÀ
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-20 opacity-70"></div>
+                    <div class="absolute bottom-3 left-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded">{{ course.category }}</span>
+                        <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-0.5 rounded ml-2">{{ course.level }}</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center mb-3">
+                        <img src="{{ url_for('static', filename='platform_logos/' + course.platform_logo) }}" alt="{{ course.platform }}" class="h-5 mr-2">
+                        <span class="text-xs text-gray-500">{{ course.platform }}</span>
+                    </div>
+                    <h4 class="text-md font-semibold mb-2">{{ course.title }}</h4>
+                    <p class="text-sm text-gray-600 mb-3">{{ course.description }}</p>
+                    <div class="flex items-center justify-between mt-3">
+                        <div class="flex items-center text-yellow-500">
+                            {{ course.rating }}
+                            <span class="text-gray-600 text-xs ml-1">({{ course.rating }}/5)</span>
+                        </div>
+                        <span class="text-xs text-gray-500">{{ course.duration }}</span>
+                    </div>
+                    <a href="#" class="mt-4 block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors duration-300">Visualizza dettagli</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-6">
+            <a href="{{ url_for('allCourses') }}" class="text-blue-600 hover:text-blue-800 inline-flex items-center">
+                Visualizza tutti i corsi consigliati
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+</section>
+
+<!-- Importa Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Script per il radar chart delle skills -->
+<script src="{{ url_for('static', filename='js/skillsRadarChart.js') }}"></script>
+
+<!-- Pulsante Chat di Supporto -->
+<div class="fixed bottom-6 right-6 z-50">
+    <!-- Pulsante principale chat -->
+    <button id="supportChatBtn" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none">
+        <i class="fas fa-comments text-xl"></i>
+    </button>
+    
+    <!-- Finestra chat (inizialmente nascosta) -->
+    <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
+        <!-- Header chat -->
+        <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-headset mr-2"></i>
+                <h3 class="font-medium">Supporto TrainingHub</h3>
+            </div>
+            <button id="closeChatBtn" class="text-white hover:text-gray-200 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Corpo chat -->
+        <div class="h-80 overflow-y-auto p-4 bg-gray-50" id="chatMessages">
+            <!-- Messaggio di benvenuto -->
+            <div class="flex mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                    <p class="text-sm text-gray-700">Ciao! Come posso aiutarti oggi con TrainingHub?</p>
+                    <span class="text-xs text-gray-500 mt-1 block">14:32</span>
+                </div>
+            </div>
+            
+            <!-- Suggerimenti rapidi -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Come trovo i corsi?</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Problemi con un task</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Aggiornare skills</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Ottenimento badge</button>
+            </div>
+        </div>
+        
+        <!-- Input messaggio -->
+        <div class="p-3 border-t border-gray-200">
+            <div class="flex">
+                <input type="text" id="chatInput" placeholder="Scrivi un messaggio..." class="flex-1 border border-gray-300 rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                <button id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg focus:outline-none transition-colors">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script per la funzionalità della chat -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const supportChatBtn = document.getElementById('supportChatBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Apri la chat
+        supportChatBtn.addEventListener('click', function() {
+            chatWindow.classList.remove('hidden', 'scale-95', 'opacity-0');
+            chatWindow.classList.add('scale-100', 'opacity-100');
+            chatInput.focus();
+        });
+        
+        // Chiudi la chat
+        closeChatBtn.addEventListener('click', function() {
+            chatWindow.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                chatWindow.classList.add('hidden');
+            }, 300);
+        });
+        
+        // Invia messaggio quando si preme invio
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Invia messaggio quando si clicca il pulsante
+        sendMessageBtn.addEventListener('click', sendMessage);
+        
+        // Funzione per inviare un messaggio
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Aggiungi messaggio dell'utente
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const userMessageHTML = `
+                    <div class="flex justify-end mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg shadow-sm max-w-64 ml-2">
+                            <p class="text-sm text-white">${message}</p>
+                            <span class="text-xs text-blue-100 mt-1 block text-right">${time}</span>
+                        </div>
+                    </div>
+                `;
+                chatMessages.insertAdjacentHTML('beforeend', userMessageHTML);
+                
+                // Pulisci input
+                chatInput.value = '';
+                
+                // Simula risposta automatica dopo un breve ritardo
+                setTimeout(() => {
+                    const botMessageHTML = `
+                        <div class="flex mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                                <p class="text-sm text-gray-700">Grazie per la tua richiesta. Se intendi seguire un corso per la tua formazione personale, puoi ricercare tra quelli presenti nella sezione "Percorsi Formativi". Buono studio :) </p>
+                                <span class="text-xs text-gray-500 mt-1 block">${time}</span>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.insertAdjacentHTML('beforeend', botMessageHTML);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Gestione dei suggerimenti rapidi
+        document.querySelectorAll('#chatMessages button').forEach(button => {
+            button.addEventListener('click', function() {
+                chatInput.value = this.textContent;
+                sendMessage();
+            });
+        });
+    });
+</script>
+
+{% endblock %}

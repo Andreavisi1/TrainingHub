@@ -1,0 +1,518 @@
+{% extends "base.html" %}
+
+{% block title %}Dettaglio Task - TrainingHub{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav class="flex mb-6" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+            <a href="{{ url_for('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                <i class="fas fa-home mr-2"></i>
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <div class="flex items-center">
+                <i class="fas fa-chevron-right text-gray-400 mx-2 text-sm"></i>
+                <span class="text-sm font-medium text-gray-500">Task Assegnati</span>
+            </div>
+        </li>
+        <li aria-current="page">
+            <div class="flex items-center">
+                <i class="fas fa-chevron-right text-gray-400 mx-2 text-sm"></i>
+                <span class="text-sm font-medium text-gray-500">{{ task.title }}</span>
+            </div>
+        </li>
+    </ol>
+</nav>
+
+<!-- Task detail section -->
+<div class="mb-10">
+    <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-gray-800">{{ task.title }}</h1>
+        <div class="flex space-x-3">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center transition-colors duration-300">
+                <i class="fas fa-tasks mr-2"></i>
+                Aggiorna stato
+            </button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md flex items-center transition-colors duration-300">
+                <i class="fas fa-share-alt mr-2"></i>
+                Condividi
+            </button>
+        </div>
+    </div>
+
+    <!-- Task info card -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+        <div class="bg-blue-600 px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-white">Informazioni sul Task</h3>
+                <div>
+                    {% if task.priority == 'Alta' %}
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Alta Priorità</span>
+                    {% elif task.priority == 'Media' %}
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Media Priorità</span>
+                    {% else %}
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Bassa Priorità</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Stato</h4>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full mr-2 
+                                {% if task.status == 'Completato' %}bg-green-500
+                                {% elif task.status == 'In corso' %}bg-blue-500
+                                {% elif task.status == 'In attesa' %}bg-yellow-500
+                                {% elif task.status == 'Bloccato' %}bg-red-500
+                                {% endif %}">
+                            </div>
+                            <span class="text-gray-900">{{ task.status }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Deadline</h4>
+                        <p class="text-gray-900 {% if task.days_remaining <= 2 %}text-red-600 font-medium{% endif %}">
+                            {{ task.deadline }}
+                            {% if task.days_remaining <= 2 %}
+                            <span class="ml-2 text-red-600 text-sm">({{ task.days_remaining }} giorni rimanenti)</span>
+                            {% else %}
+                            <span class="ml-2 text-gray-500 text-sm">({{ task.days_remaining }} giorni rimanenti)</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Assegnato da</h4>
+                        <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full mr-2" src="{{ url_for('static', filename='images/avatars/' + task.assigned_by_avatar) }}" alt="{{ task.assigned_by }}">
+                            <span class="text-gray-900">{{ task.assigned_by }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Team</h4>
+                        <p class="text-gray-900">{{ task.team }}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Data di assegnazione</h4>
+                        <p class="text-gray-900">{{ task.assigned_date }}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-500 mb-1">Collaboratori</h4>
+                        <div class="flex -space-x-2">
+                            {% for collaborator in task.collaborators %}
+                            <img class="h-8 w-8 rounded-full border-2 border-white" src="{{ url_for('static', filename='images/avatars/' + collaborator.avatar) }}" alt="{{ collaborator.name }}">
+                            {% endfor %}
+                            <button class="h-8 w-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-gray-500 text-xs">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <h4 class="text-sm font-medium text-gray-500 mb-3">Descrizione del task</h4>
+                <p class="text-gray-700">{{ task.description }}</p>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <h4 class="text-sm font-medium text-gray-500 mb-3">Obiettivi</h4>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    {% for objective in task.objectives %}
+                    <li>{{ objective }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <h4 class="text-sm font-medium text-gray-500 mb-3">Competenze richieste</h4>
+                <div class="flex flex-wrap gap-2">
+                    {% for skill in task.required_skills %}
+                    <span class="px-3 py-1 rounded-full text-sm 
+                        {% if skill.level == 'Advanced' %}
+                        bg-blue-100 text-blue-800
+                        {% elif skill.level == 'Intermediate' %}
+                        bg-green-100 text-green-800
+                        {% else %}
+                        bg-gray-100 text-gray-800
+                        {% endif %}">
+                        {{ skill.name }} {% if skill.level %}({{ skill.level }}){% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Corsi consigliati per il task -->
+<div class="mb-10">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">Corsi Consigliati per Questo Task</h2>
+        <div class="flex items-center">
+            <span class="text-sm text-gray-500 mr-3">Ordina per:</span>
+            <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                <option value="priority">Priorità</option>
+                <option value="rating">Valutazione</option>
+                <option value="duration">Durata</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Timeline di apprendimento consigliata -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h3 class="text-lg font-semibold text-gray-700 mb-6">Learning Path Consigliato</h3>
+        
+        <div class="relative">
+            <!-- Timeline line -->
+            <div class="absolute left-5 top-0 bottom-0 w-0.5 bg-blue-200"></div>
+            
+            <!-- Timeline items -->
+            <div class="space-y-8">
+                <!-- Course 1 - High Priority -->
+                <div class="relative pl-12">
+                    <!-- Timeline marker -->
+                    <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-yellow-500 border-4 border-white shadow flex items-center justify-center">
+                        <span class="text-white font-bold">1</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-yellow-50 to-white border border-yellow-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">ALTA PRIORITÀ</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded ml-2">Essenziale</span>
+                            </div>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.8/5)</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold mb-2">Data Analysis con Python: Pandas Avanzato</h4>
+                        <div class="flex items-center mb-3">
+                            <img src="{{ url_for('static', filename='platform_logos/datacamp.png') }}" alt="DataCamp" class="h-5 mr-2">
+                            <span class="text-sm text-gray-500">DataCamp</span>
+                            <span class="mx-2 text-gray-400">|</span>
+                            <span class="text-sm text-gray-500">12 ore</span>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">Questo corso approfondisce l'uso di Pandas per l'analisi dei dati e la manipolazione di dataset complessi. Imparerai tecniche di aggregazione, pulizia dati e trasformazione che sono essenziali per il tuo task corrente.</p>
+                        
+                        <div class="flex items-start space-x-1 mb-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <p class="text-sm text-gray-600">Skills acquisite: Data cleaning, Data transformation, Performance optimization</p>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Inizia il corso</a>
+                            <a href="#" class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded text-sm transition-colors duration-300">Dettagli corso</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Course 2 - Medium Priority -->
+                <div class="relative pl-12">
+                    <!-- Timeline marker -->
+                    <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-blue-500 border-4 border-white shadow flex items-center justify-center">
+                        <span class="text-white font-bold">2</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-50 to-white border border-blue-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">MEDIA PRIORITÀ</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded ml-2">Complementare</span>
+                            </div>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.1/5)</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold mb-2">Data Visualization con Matplotlib e Seaborn</h4>
+                        <div class="flex items-center mb-3">
+                            <img src="{{ url_for('static', filename='platform_logos/coursera.png') }}" alt="Coursera" class="h-5 mr-2">
+                            <span class="text-sm text-gray-500">Coursera - University of Michigan</span>
+                            <span class="mx-2 text-gray-400">|</span>
+                            <span class="text-sm text-gray-500">18 ore</span>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">Impara a creare visualizzazioni efficaci e interattive dai tuoi dati. Questo corso copre le librerie principali di Python per la visualizzazione e ti aiuterà a presentare i risultati delle tue analisi in modo professionale.</p>
+                        
+                        <div class="flex items-start space-x-1 mb-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <p class="text-sm text-gray-600">Skills acquisite: Data storytelling, Visualizzazione statistica, Interactive dashboards</p>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Inizia il corso</a>
+                            <a href="#" class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded text-sm transition-colors duration-300">Dettagli corso</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Course 3 - Medium Priority -->
+                <div class="relative pl-12">
+                    <!-- Timeline marker -->
+                    <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-blue-500 border-4 border-white shadow flex items-center justify-center">
+                        <span class="text-white font-bold">3</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-50 to-white border border-blue-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">MEDIA PRIORITÀ</span>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded ml-2">Estensione</span>
+                            </div>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.9/5)</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold mb-2">Ottimizzazione delle Query SQL per Big Data</h4>
+                        <div class="flex items-center mb-3">
+                            <img src="{{ url_for('static', filename='platform_logos/udemy.png') }}" alt="Udemy" class="h-5 mr-2">
+                            <span class="text-sm text-gray-500">Udemy</span>
+                            <span class="mx-2 text-gray-400">|</span>
+                            <span class="text-sm text-gray-500">15 ore</span>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">Questo corso ti insegnerà le tecniche più avanzate per ottimizzare le query SQL quando lavori con grandi volumi di dati, migliorando le performance delle tue analisi.</p>
+                        
+                        <div class="flex items-start space-x-1 mb-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <p class="text-sm text-gray-600">Skills acquisite: Query optimization, Index management, Performance tuning</p>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Inizia il corso</a>
+                            <a href="#" class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded text-sm transition-colors duration-300">Dettagli corso</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Course 4 - Low Priority -->
+                <div class="relative pl-12">
+                    <!-- Timeline marker -->
+                    <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-green-500 border-4 border-white shadow flex items-center justify-center">
+                        <span class="text-white font-bold">4</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-white border border-green-200 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">BASSA PRIORITÀ</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded ml-2">Avanzamento</span>
+                            </div>
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.0/5)</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="text-lg font-semibold mb-2">Machine Learning per Data Analytics</h4>
+                        <div class="flex items-center mb-3">
+                            <img src="{{ url_for('static', filename='platform_logos/mit.png') }}" alt="edX" class="h-5 mr-2">
+                            <span class="text-sm text-gray-500">edX - MIT</span>
+                            <span class="mx-2 text-gray-400">|</span>
+                            <span class="text-sm text-gray-500">24 ore</span>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">Un'introduzione ai concetti di machine learning applicati all'analisi dei dati. Questo corso ti darà una comprensione di come implementare modelli semplici per analisi predittive e classificazione.</p>
+                        
+                        <div class="flex items-start space-x-1 mb-3">
+                            <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                            <p class="text-sm text-gray-600">Skills acquisite: Regression, Classification, Feature engineering</p>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors duration-300">Inizia il corso</a>
+                            <a href="#" class="border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded text-sm transition-colors duration-300">Dettagli corso</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Corsi aggiuntivi correlati -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Altre Risorse Utili</h3>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Corso</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Piattaforma</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durata</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valutazione</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priorità</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Resource 1 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900">Python for Data Science Handbook</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">O'Reilly</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">Libro (546 pagine)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.9/5)</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Media</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Dettagli</a>
+                        </td>
+                    </tr>
+                    
+                    <!-- Resource 2 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900">SQL Performance Explained</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">Modern SQL</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">Ebook (204 pagine)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.6/5)</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Media</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Dettagli</a>
+                        </td>
+                    </tr>
+                    
+                    <!-- Resource 3 -->
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900">Database Systems: The Complete Book</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">Pearson</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">Libro (1119 pagine)</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-gray-600 text-xs ml-1">(4.2/5)</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Bassa</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">Dettagli</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Mock data script for development -->
+<script>
+if (typeof task === 'undefined') {
+    const task = {
+        id: 1,
+        title: "Implementazione nuovo modulo analytics",
+        team: "Data Science",
+        deadline: "28/03/2025",
+        days_remaining: 1,
+        status: "In corso",
+        priority: "Alta",
+        assigned_by: "Marco Bianchi",
+        assigned_by_avatar: "user1.jpg",
+        assigned_date: "15/03/2025",
+        description: "Implementare un nuovo modulo di analytics che permetta di monitorare in tempo reale le performance del sistema e generare report automatici. Il modulo dovrà integrarsi con il database esistente e fornire visualizzazioni interattive dei dati raccolti.",
+        objectives: [
+            "Analizzare i requisiti e definire le metriche chiave",
+            "Sviluppare query ottimizzate per l'estrazione dei dati",
+            "Creare dashboard interattive con filtri personalizzabili",
+            "Implementare sistema di report automatici settimanali/mensili",
+            "Documentare l'architettura e l'utilizzo del modulo"
+        ],
+        required_skills: [
+            { name: "Python", level: "Advanced" },
+            { name: "SQL", level: "Advanced" },
+            { name: "Data Visualization", level: "Intermediate" },
+            { name: "Database Design", level: "Intermediate" },
+            { name: "ETL", level: "Beginner" }
+        ],
+        collaborators: [
+            { name: "Laura Rossi", avatar: "user2.jpg" },
+            { name: "Giovanni Verdi", avatar: "user3.jpg" },
+            { name: "Francesca Russo", avatar: "user4.jpg" }
+        ]
+    };
+    console.log("Mock task data loaded:", task);
+}
+</script>
+
+<!-- Importa il tuo file JavaScript -->
+<script src="{{ url_for('static', filename='js/taskDetail.js') }}"></script>
+{% endblock %}

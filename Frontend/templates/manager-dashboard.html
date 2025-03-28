@@ -1,0 +1,809 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Manager - TrainingHub{% endblock %}
+
+{% block content %}
+<!-- Dashboard Section -->
+<section id="dashboard-section" class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Dashboard Manager</h1>
+        <div class="text-sm text-gray-500">Ultimo aggiornamento: oggi alle 11:30</div>
+    </div>
+
+    {% set top_performers = [
+        {'name': 'Giansimone Coccia', 'role': 'Senior Developer', 'avatar': 'Giansimone.jpeg', 'score': 95, 'growth': 12},
+        {'name': 'Elisabetta Frenquelli', 'role': 'UX Designer', 'avatar': 'Elisabetta.jpeg', 'score': 92, 'growth': 8},
+        {'name': 'Laura Ferretti', 'role': 'Project Manager', 'avatar': 'Laura.jpeg', 'score': 89, 'growth': 15},
+        {'name': 'Andrea Visi', 'role': 'Data Analyst', 'avatar': 'Andrea.jpeg', 'score': 87, 'growth': 10},
+        {'name': 'Micol Zazzarini', 'role': 'Backend Developer', 'avatar': 'Micol.jpeg', 'score': 85, 'growth': 7},
+        {'name': 'Luca Bellante', 'role': 'Backend Developer', 'avatar': 'Luca.jpeg', 'score': 85, 'growth': 7}
+    ] %}
+    
+    {% set skill_gaps = [
+        {'name': 'Data Science', 'category': 'Tecnica', 'current_level': 65, 'target_level': 85, 'gap': 20, 'employees_count': 12},
+        {'name': 'Project Management', 'category': 'Management', 'current_level': 70, 'target_level': 90, 'gap': 20, 'employees_count': 8},
+        {'name': 'JavaScript/React', 'category': 'Tecnica', 'current_level': 75, 'target_level': 90, 'gap': 15, 'employees_count': 15},
+        {'name': 'Leadership', 'category': 'Soft Skill', 'current_level': 68, 'target_level': 80, 'gap': 12, 'employees_count': 22},
+        {'name': 'UX Design', 'category': 'Tecnica', 'current_level': 78, 'target_level': 85, 'gap': 7, 'employees_count': 6},
+        {'name': 'Comunicazione', 'category': 'Soft Skill', 'current_level': 82, 'target_level': 88, 'gap': 6, 'employees_count': 18}
+    ] %}
+    
+    {% set employees = [
+        {'name': 'Marco Bianchi', 'email': 'm.bianchi@azienda.it', 'avatar': 'user1.jpg', 'team': 'Sviluppo',
+         'skills': [{'level': 95}, {'level': 70}, {'level': 60}, {'level': 75}, {'level': 80}, {'level': 85}]},
+        {'name': 'Laura Rossi', 'email': 'l.rossi@azienda.it', 'avatar': 'user2.jpg', 'team': 'Design',
+         'skills': [{'level': 65}, {'level': 55}, {'level': 90}, {'level': 70}, {'level': 85}, {'level': 75}]},
+        {'name': 'Andrea Verdi', 'email': 'a.verdi@azienda.it', 'avatar': 'user3.jpg', 'team': 'Project Management',
+         'skills': [{'level': 60}, {'level': 65}, {'level': 75}, {'level': 90}, {'level': 88}, {'level': 92}]},
+        {'name': 'Giulia Neri', 'email': 'g.neri@azienda.it', 'avatar': 'user4.jpg', 'team': 'Data',
+         'skills': [{'level': 75}, {'level': 92}, {'level': 55}, {'level': 70}, {'level': 80}, {'level': 65}]},
+        {'name': 'Francesco Russo', 'email': 'f.russo@azienda.it', 'avatar': 'user5.jpg', 'team': 'Sviluppo',
+         'skills': [{'level': 82}, {'level': 88}, {'level': 50}, {'level': 65}, {'level': 75}, {'level': 60}]},
+        {'name': 'Sofia Martini', 'email': 's.martini@azienda.it', 'avatar': 'user6.jpg', 'team': 'Marketing',
+         'skills': [{'level': 50}, {'level': 45}, {'level': 65}, {'level': 68}, {'level': 95}, {'level': 78}]},
+        {'name': 'Luca Ferrari', 'email': 'l.ferrari@azienda.it', 'avatar': 'user7.jpg', 'team': 'Design',
+         'skills': [{'level': 72}, {'level': 60}, {'level': 88}, {'level': 65}, {'level': 82}, {'level': 70}]},
+        {'name': 'Elena Romano', 'email': 'e.romano@azienda.it', 'avatar': 'user8.jpg', 'team': 'Sviluppo',
+         'skills': [{'level': 85}, {'level': 75}, {'level': 60}, {'level': 55}, {'level': 80}, {'level': 45}]},
+        {'name': 'Roberto Gallo', 'email': 'r.gallo@azienda.it', 'avatar': 'user9.jpg', 'team': 'Data',
+         'skills': [{'level': 60}, {'level': 90}, {'level': 45}, {'level': 72}, {'level': 65}, {'level': 58}]},
+        {'name': 'Valentina Ricci', 'email': 'v.ricci@azienda.it', 'avatar': 'user10.jpg', 'team': 'Project Management',
+         'skills': [{'level': 55}, {'level': 60}, {'level': 70}, {'level': 85}, {'level': 90}, {'level': 82}]}
+    ] %}
+    
+    {% set training_programs = [
+        {'title': 'JavaScript & React Avanzato', 'priority': 'Alta', 'skills': ['JavaScript', 'React', 'Frontend'], 
+         'employees_count': 15, 'completion': 25, 'budget': '€8,500', 'duration': '12 settimane'},
+        {'title': 'Leadership & Team Management', 'priority': 'Media', 'skills': ['Leadership', 'Comunicazione', 'Management'], 
+         'employees_count': 22, 'completion': 40, 'budget': '€12,000', 'duration': '8 settimane'},
+        {'title': 'Data Science & Analytics', 'priority': 'Alta', 'skills': ['Python', 'Data Analysis', 'Machine Learning'], 
+         'employees_count': 12, 'completion': 10, 'budget': '€15,000', 'duration': '16 settimane'}
+    ] %}
+
+    <!-- Overview Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Dipendenti Totali</p>
+                    <h3 class="text-2xl font-bold text-gray-800">42</h3>
+                </div>
+                <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Corsi Completati</p>
+                    <h3 class="text-2xl font-bold text-gray-800">187</h3>
+                </div>
+                <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 text-xl">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Completamento Progetti</p>
+                    <h3 class="text-2xl font-bold text-gray-800">73%</h3>
+                </div>
+                <div class="h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xl">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">Gap Competenze</p>
+                    <h3 class="text-2xl font-bold text-gray-800">18%</h3>
+                </div>
+                <div class="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-xl">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Skills Overview and Top Performers -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Team Skills Overview -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Panoramica Competenze Team</h3>
+            <div class="flex justify-center">
+                <div class="w-full h-164 flex justify-center items-center">
+                    <!-- Canvas for chart -->
+                    <canvas id="teamSkillsRadarChart" width="1600" height="1600"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Performers -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-700">Top Performers</h3>
+                <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                    <option value="month">Questo Mese</option>
+                    <option value="quarter">Questo Trimestre</option>
+                    <option value="year">Quest'Anno</option>
+                </select>
+            </div>
+            <div class="space-y-4">
+                {% for performer in top_performers %}
+                <div class="flex items-center p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                    <div class="w-20 h-20 rounded-full overflow-hidden">
+                        <img src="{{ url_for('static', filename='platform_logos/' + performer.avatar) }}" alt="{{ performer.name }}" class="w-full h-full object-cover">
+                        <div class="absolute -top-1 -right-1 bg-yellow-400 h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold text-white">{{ loop.index }}</div>
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h4 class="text-sm font-medium text-gray-800">{{ performer.name }}</h4>
+                        <p class="text-xs text-gray-500">{{ performer.role }}</p>
+                    </div>
+                    <div class="flex flex-col items-end">
+                        <div class="text-sm font-semibold text-gray-700">{{ performer.score }}%</div>
+                        <div class="text-xs text-gray-500">{{ performer.growth }}% ↑</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Gaps and Training Needs -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-700">Gap di Competenze & Necessità Formative</h3>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-3">Categoria:</span>
+                <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                    <option value="all">Tutte le categorie</option>
+                    <option value="tech">Tecniche</option>
+                    <option value="soft">Soft Skills</option>
+                    <option value="management">Management</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Competenza</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Livello Attuale</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Obiettivo</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gap</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N° Dipendenti</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for skill in skill_gaps %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ skill.name }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                {% if skill.category == 'Tecnica' %}bg-blue-100 text-blue-800
+                                {% elif skill.category == 'Soft Skill' %}bg-green-100 text-green-800
+                                {% else %}bg-purple-100 text-purple-800{% endif %}">
+                                {{ skill.category }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ skill.current_level }}%"></div>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-600">{{ skill.current_level }}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ skill.target_level }}%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {% if skill.gap > 20 %}bg-red-100 text-red-800
+                                {% elif skill.gap > 10 %}bg-yellow-100 text-yellow-800
+                                {% else %}bg-green-100 text-green-800{% endif %}">
+                                {{ skill.gap }}%
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ skill.employees_count }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                <i class="fas fa-users"></i> Dipendenti
+                            </a>
+                            <a href="#" class="text-green-600 hover:text-green-900">
+                                <i class="fas fa-graduation-cap"></i> Corsi
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Employee Skills Matrix -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-700">Matrice Competenze Dipendenti</h3>
+            <div class="flex items-center space-x-3">
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2">Team:</span>
+                    <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                        <option value="all">Tutti i team</option>
+                        <option value="development">Sviluppo</option>
+                        <option value="design">Design</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-2">Competenza:</span>
+                    <select class="text-sm border border-gray-300 rounded-md px-3 py-1">
+                        <option value="all">Tutte le competenze</option>
+                        <option value="programming">Programmazione</option>
+                        <option value="design">Design</option>
+                        <option value="communication">Comunicazione</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dipendente</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">JavaScript</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Python</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">UI/UX</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Project Mgmt</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Comunicazione</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Leadership</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Azioni</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for employee in employees %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <img class="h-10 w-10 rounded-full" src="https://previews.123rf.com/images/kritchanut/kritchanut1509/kritchanut150900225/45616483-icona-uomo-d-affari-pu%C3%B2-essere-utilizzato-come-avatar-o-immagine-del-profilo.jpg" alt="">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ employee.name }}</div>
+                                    <div class="text-sm text-gray-500">{{ employee.email }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ employee.team }}</td>
+                        
+                        {% for skill in employee.skills %}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex justify-center">
+                                <div class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium
+                                    {% if skill.level > 80 %}bg-green-100 text-green-800
+                                    {% elif skill.level > 50 %}bg-blue-100 text-blue-800
+                                    {% elif skill.level > 30 %}bg-yellow-100 text-yellow-800
+                                    {% else %}bg-red-100 text-red-800{% endif %}">
+                                    {{ skill.level }}
+                                </div>
+                            </div>
+                        </td>
+                        {% endfor %}
+                        
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-900 mr-3">
+                                <i class="fas fa-chart-bar"></i> Dettaglio
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-4 flex justify-between items-center">
+            <div class="text-sm text-gray-500">Mostrando 1-10 di 42 dipendenti</div>
+            <div class="flex items-center space-x-2">
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm">Precedente</button>
+                <button class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">1</button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm">2</button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm">3</button>
+                <button class="px-3 py-1 border border-gray-300 rounded-md text-sm">Successivo</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recommended Training Programs -->
+    <div class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-700">Programmi Formativi Consigliati</h3>
+            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">
+                <i class="fas fa-plus mr-1"></i>Crea nuovo programma
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for program in training_programs %}
+            <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+                <div class="p-5 border-b border-gray-200 bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-md font-semibold">{{ program.title }}</h4>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            {% if program.priority == 'Alta' %}bg-red-100 text-red-800
+                            {% elif program.priority == 'Media' %}bg-yellow-100 text-yellow-800
+                            {% else %}bg-green-100 text-green-800{% endif %}">
+                            {{ program.priority }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div class="mb-4">
+                        <span class="text-xs text-gray-500">Target Skill:</span>
+                        <div class="flex space-x-2 mt-1">
+                            {% for skill in program.skills %}
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-xs text-gray-500">Dipendenti da formare:</span>
+                            <span class="text-xs font-medium text-gray-700">{{ program.employees_count }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: {{ program.completion }}%"></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-4">
+                        <span>Budget: {{ program.budget }}</span>
+                        <span>Durata: {{ program.duration }}</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <a href="#" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors duration-300 text-sm">Dettagli</a>
+                        <a href="#" class="flex-1 text-center border border-blue-600 text-blue-600 hover:bg-blue-50 py-2 px-4 rounded-md transition-colors duration-300 text-sm">Assegna</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6" style="margin-top: 25px">
+
+        <!-- Upload Section (from the first document) -->
+        <div id="uploadSection" class="mb-6">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-semibold mb-4">Carica Documenti Aziendali</h2>
+                <p class="mb-4 text-gray-600">
+                    Carica i tuoi documenti aziendali in formato PDF, DOCX, TXT o HTML per analizzarli
+                    ed estrarre automaticamente conoscenze chiave.
+                </p>
+                
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center mb-6">
+                    <div class="mx-auto h-12 w-12 text-gray-400 mb-2">
+                        <i class="fas fa-upload text-4xl"></i>
+                    </div>
+                    <p class="mb-2">Trascina qui i file o</p>
+                    <label class="inline-block bg-blue-600 text-white rounded px-4 py-2 cursor-pointer hover:bg-blue-700">
+                        Sfoglia File
+                        <input 
+                            type="file" 
+                            multiple 
+                            accept=".pdf,.docx,.txt,.html" 
+                            class="hidden" 
+                            id="fileInput"
+                        />
+                    </label>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Formati supportati: PDF, DOCX, TXT, HTML
+                    </p>
+                </div>
+                
+                <!-- File List -->
+                <div id="fileListContainer" class="hidden">
+                    <h3 class="font-medium mb-2">File selezionati (<span id="fileCount">0</span>)</h3>
+                    <ul id="fileList" class="border rounded-lg divide-y">
+                        <!-- File items will be added here dynamically -->
+                    </ul>
+                    
+                    <button 
+                        id="analyzeBtn"
+                        class="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 w-full"
+                    >
+                        Analizza Documenti
+                    </button>
+                </div>
+    
+                <!-- Analyzing state -->
+                <div id="analyzingState" class="mt-4 text-center hidden">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600 mb-2"></div>
+                    <p>Analisi in corso...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+<!-- Importa Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Script per i radar chart delle competenze -->
+<script>
+// Dati per il radar chart delle competenze del team
+document.addEventListener('DOMContentLoaded', function() {
+    // Radar chart per le competenze del team
+    var teamSkillsCtx = document.getElementById('teamSkillsRadarChart').getContext('2d');
+    var teamSkillsChart = new Chart(teamSkillsCtx, {
+        type: 'radar',
+        data: {
+            labels: ['JavaScript', 'Python', 'UI/UX', 'Project', 'SQL', 'Web dev'],
+            datasets: [{
+                label: 'Team Sviluppo',
+                data: [85, 18, 65, 30, 10, 73],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+            }, {
+                label: 'Team Design',
+                data: [10, 55, 90, 0, 5, 60],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }, {
+                label: 'Team Management',
+                data: [10, 35, 15, 90, 8, 9],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgb(75, 192, 192)',
+                pointBackgroundColor: 'rgb(75, 192, 192)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(75, 192, 192)'
+            }, {
+                label: 'Team Data',
+                data: [42, 92, 38, 10, 75, 62],
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgb(255, 206, 86)',
+                pointBackgroundColor: 'rgb(255, 206, 86)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 206, 86)'
+            }]
+        },
+        options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                       
+                pointLabels: {
+                    font: {
+                        size: 18 // Imposta la dimensione del font (puoi aumentarla)
+                    }
+                },
+                ticks: {
+                    font: {
+                        size: 14 // Aumenta la dimensione dei numeri sugli assi
+                    }
+                },
+                angleLines: {
+                    display: true
+                },
+                suggestedMin: 0,
+                suggestedMax: 100
+                    
+                }
+            }
+        }
+    });
+});
+
+    // DOM elements
+    const fileInput = document.getElementById('fileInput');
+    const fileListContainer = document.getElementById('fileListContainer');
+    const fileList = document.getElementById('fileList');
+    const fileCount = document.getElementById('fileCount');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const analyzingState = document.getElementById('analyzingState');
+    const uploadTabBtn = document.getElementById('uploadTabBtn');
+    const dashboardTabBtn = document.getElementById('dashboardTabBtn');
+    const uploadSection = document.getElementById('uploadSection');
+    const dashboardSection = document.getElementById('dashboardSection');
+    
+    // Store uploaded files
+    let files = [];
+
+    analyzeBtn.addEventListener('click', function() {
+        if (files.length === 0) {
+            alert("Seleziona almeno un file da analizzare");
+            return;
+        }
+        
+        // Mostra lo stato di analisi
+        analyzingState.classList.remove('hidden');
+        
+        // Prepara i dati per l'invio al server
+        const formData = new FormData();
+        files.forEach(file => {
+            formData.append('files', file);
+        });
+        
+        // Chiamata AJAX al server per salvare i file
+        fetch('/upload-files', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore durante il caricamento dei file');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Nasconde lo stato di analisi
+            analyzingState.classList.add('hidden');
+            
+            // Mostra messaggio di successo
+            alert(`${files.length} file salvati con successo nella cartella: ${data.folderPath}`);
+            
+            // Opzionale: puoi reindirizzare alla pagina di analisi o aggiornare l'UI
+            // window.location.href = '/analysis-page';
+        })
+        .catch(error => {
+            // Nasconde lo stato di analisi
+            analyzingState.classList.add('hidden');
+            
+            // Mostra errore
+            alert('Errore durante il salvataggio dei file: ' + error.message);
+        });
+    });
+    
+    // Switch between tabs
+    function switchTab(tab) {
+        if (tab === 'upload') {
+            uploadTabBtn.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+            uploadTabBtn.classList.remove('text-gray-500');
+            dashboardTabBtn.classList.add('text-gray-500');
+            dashboardTabBtn.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+            uploadSection.classList.remove('hidden');
+            dashboardSection.classList.add('hidden');
+        } else {
+            dashboardTabBtn.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+            dashboardTabBtn.classList.remove('text-gray-500');
+            uploadTabBtn.classList.add('text-gray-500');
+            uploadTabBtn.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+            dashboardSection.classList.remove('hidden');
+            uploadSection.classList.add('hidden');
+        }
+    }
+    
+    // Toggle section visibility (for extracted data cards)
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        const toggle = document.getElementById(sectionId.replace('Section', 'Toggle'));
+        
+        if (section.classList.contains('hidden')) {
+            section.classList.remove('hidden');
+            toggle.textContent = '▲';
+        } else {
+            section.classList.add('hidden');
+            toggle.textContent = '▼';
+        }
+    }
+    
+    // Handle file uploads
+    fileInput.addEventListener('change', function(e) {
+        const uploadedFiles = Array.from(e.target.files);
+        const validTypes = ['.pdf', '.docx', '.txt', '.html'];
+        
+        // Filter for valid file types
+        const validFiles = uploadedFiles.filter(file => {
+            const extension = '.' + file.name.split('.').pop().toLowerCase();
+            return validTypes.includes(extension);
+        });
+        
+        // Add valid files to our array
+        files = [...files, ...validFiles];
+        
+        // Update UI
+        updateFileList();
+    });
+    
+    // Update the file list in the UI
+    function updateFileList() {
+        // Show file list container if we have files
+        fileListContainer.classList.toggle('hidden', files.length === 0);
+        
+        // Update file count
+        fileCount.textContent = files.length;
+        
+        // Clear list
+        fileList.innerHTML = '';
+        
+        // Add file items
+        files.forEach((file, index) => {
+            const li = document.createElement('li');
+            li.className = 'flex items-center justify-between p-3';
+            li.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-file-alt text-gray-500 mr-2"></i>
+                    <span>${file.name}</span>
+                </div>
+                <button 
+                    class="text-red-500 hover:text-red-700"
+                    onclick="removeFile(${index})"
+                >
+                    ✕
+                </button>
+            `;
+            fileList.appendChild(li);
+        });
+    }
+    
+    // Remove a file from the list
+    function removeFile(index) {
+        files = files.filter((_, i) => i !== index);
+        updateFileList();
+    }
+
+</script>
+
+<!-- Pulsante Chat di Supporto -->
+<div class="fixed bottom-6 right-6 z-50">
+    <!-- Pulsante principale chat -->
+    <button id="supportChatBtn" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 focus:outline-none">
+        <i class="fas fa-comments text-xl"></i>
+    </button>
+    
+    <!-- Finestra chat (inizialmente nascosta) -->
+    <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 bg-white rounded-lg shadow-xl overflow-hidden transition-all duration-300 transform scale-95 opacity-0">
+        <!-- Header chat -->
+        <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-headset mr-2"></i>
+                <h3 class="font-medium">Supporto TrainingHub</h3>
+            </div>
+            <button id="closeChatBtn" class="text-white hover:text-gray-200 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Corpo chat -->
+        <div class="h-80 overflow-y-auto p-4 bg-gray-50" id="chatMessages">
+            <!-- Messaggio di benvenuto -->
+            <div class="flex mb-4">
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                    <p class="text-sm text-gray-700">Ciao! Come posso aiutarti oggi con TrainingHub?</p>
+                    <span class="text-xs text-gray-500 mt-1 block">14:32</span>
+                </div>
+            </div>
+            
+            <!-- Suggerimenti rapidi -->
+            <div class="flex flex-wrap gap-2 mb-4">
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Come valuto i miei dipendenti?</button>
+                <button class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 py-1 px-3 rounded-full transition-colors">Mancanza di skills</button>
+            </div>
+        </div>
+        
+        <!-- Input messaggio -->
+        <div class="p-3 border-t border-gray-200">
+            <div class="flex">
+                <input type="text" id="chatInput" placeholder="Scrivi un messaggio..." class="flex-1 border border-gray-300 rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                <button id="sendMessageBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-lg focus:outline-none transition-colors">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script per la funzionalità della chat -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const supportChatBtn = document.getElementById('supportChatBtn');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChatBtn = document.getElementById('closeChatBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        
+        // Apri la chat
+        supportChatBtn.addEventListener('click', function() {
+            chatWindow.classList.remove('hidden', 'scale-95', 'opacity-0');
+            chatWindow.classList.add('scale-100', 'opacity-100');
+            chatInput.focus();
+        });
+        
+        // Chiudi la chat
+        closeChatBtn.addEventListener('click', function() {
+            chatWindow.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                chatWindow.classList.add('hidden');
+            }, 300);
+        });
+        
+        // Invia messaggio quando si preme invio
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Invia messaggio quando si clicca il pulsante
+        sendMessageBtn.addEventListener('click', sendMessage);
+        
+        // Funzione per inviare un messaggio
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Aggiungi messaggio dell'utente
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const userMessageHTML = `
+                    <div class="flex justify-end mb-4">
+                        <div class="bg-blue-600 p-3 rounded-lg shadow-sm max-w-64 ml-2">
+                            <p class="text-sm text-white">${message}</p>
+                            <span class="text-xs text-blue-100 mt-1 block text-right">${time}</span>
+                        </div>
+                    </div>
+                `;
+                chatMessages.insertAdjacentHTML('beforeend', userMessageHTML);
+                
+                // Pulisci input
+                chatInput.value = '';
+                
+                // Simula risposta automatica dopo un breve ritardo
+                setTimeout(() => {
+                    const botMessageHTML = `
+                        <div class="flex mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0 mr-2">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg shadow-sm max-w-64">
+                                <p class="text-sm text-gray-700">Grazie per la tua richiesta. Se intendi valutare il percorso formativo di uno dei tuoi dipendenti, vai in basso nella sezione "Matrice Competenze Dipendenti", trovalo e clicca su "Dettaglio" (l'importante è che non diano la colpa a me) </p>
+                                <span class="text-xs text-gray-500 mt-1 block">${time}</span>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.insertAdjacentHTML('beforeend', botMessageHTML);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+        // Gestione dei suggerimenti rapidi
+        document.querySelectorAll('#chatMessages button').forEach(button => {
+            button.addEventListener('click', function() {
+                chatInput.value = this.textContent;
+                sendMessage();
+            });
+        });
+    });
+</script>
+
+
+
+
+{% endblock %}

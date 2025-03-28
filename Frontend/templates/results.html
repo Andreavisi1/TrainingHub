@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="analysis-results">
+    <div class="results-header">
+        <h1>Risultati Analisi Documento</h1>
+        <p>File: {{ results.filename }}</p>
+    </div>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <h2>Terminologia Chiave</h2>
+            <div class="tags-container">
+                {% for term in results.terminologia_chiave %}
+                    <span class="tag">{{ term }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="result-card">
+            <h2>Struttura Organizzativa</h2>
+            <ul class="org-list">
+                {% for role in results.struttura_organizzativa %}
+                    <li>{{ role }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="result-card">
+            <h2>Processi e Procedure</h2>
+            <ul class="process-list">
+                {% for process in results.processi_procedure %}
+                    <li>{{ process }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="result-card">
+            <h2>Risorse e Strumenti</h2>
+            <div class="tools-container">
+                {% for tool in results.risorse_strumenti %}
+                    <span class="tool-tag">{{ tool }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="results-actions">
+        <button id="generate-quiz-btn" class="btn btn-primary">
+            Genera Quiz di Formazione
+        </button>
+        <button id="download-report-btn" class="btn btn-secondary">
+            Scarica Report Completo
+        </button>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const generateQuizBtn = document.getElementById('generate-quiz-btn');
+    const downloadReportBtn = document.getElementById('download-report-btn');
+
+    generateQuizBtn.addEventListener('click', () => {
+        // Placeholder per generazione quiz
+        alert('Funzionalità di generazione quiz in sviluppo');
+    });
+
+    downloadReportBtn.addEventListener('click', () => {
+        // Placeholder per download report
+        alert('Funzionalità di download report in sviluppo');
+    });
+});
+</script>
+{% endblock %}
