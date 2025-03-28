@@ -1,0 +1,48 @@
+{
+  "technical_skills": [
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "DevOps",
+    "Cloud",
+    "React.js",
+    "Node.js",
+    "Spring Boot",
+    "TensorFlow",
+    "PyTorch",
+    "SQL",
+    "Python",
+    "Java",
+    "C#"
+  ],
+  "soft_skills": [
+    "problem solving",
+    "leadership",
+    "communication",
+    "adaptability",
+    "critical thinking",
+    "teamwork",
+    "time management",
+    "presentation skills"
+  ],
+  "languages": [
+    {
+      "language": "Italiano",
+      "level": "madrelingua"
+    },
+    {
+      "language": "Inglese",
+      "level": "fluente"
+    },
+    {
+      "language": "Spagnolo",
+      "level": "intermedio"
+    }
+  ],
+  "certifications": [
+    "AWS Certified Solutions Architect - Associate",
+    "Docker Certified Associate",
+    "Microsoft Certified: Azure Developer Associate",
+    "MongoDB Certified Developer"
+  ]
+}

@@ -21,7 +21,6 @@
 
     <div id="app" class="hidden">
         <!-- Header -->
-
         <header class="bg-indigo-600 shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
                 <div class="flex items-center">
@@ -36,7 +35,14 @@
                         
                         <a href="{{ url_for('learning') }}" class="nav-link {% if request.path == url_for('learning') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Percorsi Formativi</a>
                         
-                        <!-- Sezione Skills - visibile solo nella pagina skills o se request.show_skills è True -->
+                        <!-- Sezione Dashboard Manager - visibile solo agli admin -->
+                        {% if session.is_admin %}
+                        <a href="{{ url_for('manager_dashboard') }}" class="nav-link {% if request.path == url_for('manager_dashboard') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-chart-line mr-1"></i> Dashboard Manager
+                        </a>
+                        {% endif %}
+                        
+                        <!-- Sezione Skills - già presente nel template originale -->
                         {% if request.path == url_for('skills') or request.show_skills %}
                         <a href="{{ url_for('skills') }}" class="nav-link {% if request.path == url_for('skills') %}bg-indigo-700 text-white{% else %}text-white hover:text-indigo-200{% endif %} px-3 py-2 rounded-md text-sm font-medium">Gestione Azienda</a>
                         {% endif %}
@@ -53,24 +59,43 @@
                         <div class="ml-4 flex items-center md:ml-6">
                             <div class="ml-3 relative">
                                 <div class="flex items-center">
-                                    <div class="bg-indigo-300 rounded-full h-8 w-8 flex items-center justify-center text-indigo-800 font-semibold">M</div>
+                                    <div class="bg-indigo-300 rounded-full h-8 w-8 flex items-center justify-center text-indigo-800 font-semibold">
+                                        {% if session.user_name %}
+                                            {{ session.user_name[0] }}
+                                        {% elif user.name %}
+                                            {{ user.name[0] }}
+                                        {% else %}
+                                            U
+                                        {% endif %}
+                                    </div>
                                     
                                     <!-- Nome dinamico basato sulla pagina corrente -->
-                                    {% if request.path == url_for('skills') %}
+                                    {% if request.path == url_for('skills') or request.path == url_for('manager_dashboard') %}
                                     <span class="ml-2 text-white font-medium">Manager</span>
                                     {% else %}
-                                    <span class="ml-2 text-white font-medium">{{ user.name }}</span>
+                                    <span class="ml-2 text-white font-medium">
+                                        {% if session.user_name %}
+                                            {{ session.user_name }}
+                                        {% else %}
+                                            {{ user.name }}
+                                        {% endif %}
+                                    </span>
                                     {% endif %}
                                     
-                                        <!-- Team badge con colore dinamico -->
-                                        <div class="ml-2 {% if request.path == url_for('skills') %}bg-red-500{% else %}bg-green-400{% endif %} rounded-full p-2 text-xs text-white font-bold">
-                                            <!-- Team dinamico basato sulla pagina corrente -->
-                                            {% if request.path == url_for('skills') %}
-                                            Sezione Admin
-                                            {% else %}
-                                            Team Sviluppo
-                                            {% endif %}
-                                        </div>
+                                    <!-- Team badge con colore dinamico -->
+                                    <div class="ml-2 {% if request.path == url_for('skills') or request.path == url_for('manager_dashboard') %}bg-red-500{% else %}bg-green-400{% endif %} rounded-full p-2 text-xs text-white font-bold">
+                                        <!-- Team dinamico basato sulla pagina corrente -->
+                                        {% if request.path == url_for('skills') or request.path == url_for('manager_dashboard') %}
+                                        Sezione Admin
+                                        {% else %}
+                                        Team Sviluppo
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Pulsante di Logout -->
+                                    <a href="{{ url_for('logout') }}" class="ml-4 inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-800 hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -78,6 +103,30 @@
                 </div>
             </div>
         </header>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                    {% for category, message in messages %}
+                        <div class="{% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %} p-4 rounded-md mb-2">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    {% if category == 'error' %}
+                                        <i class="fas fa-exclamation-circle text-red-400"></i>
+                                    {% else %}
+                                        <i class="fas fa-check-circle text-green-400"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium">{{ message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

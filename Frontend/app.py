@@ -1,7 +1,11 @@
-from flask import Flask, request, jsonify, render_template
+import logging
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session, g
 import os
 from werkzeug.utils import secure_filename
-from datetime import datetime
+from datetime import datetime, timedelta
+import json
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -10,6 +14,23 @@ UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.secret_key = 'chiave_segreta_molto_complessa'  # Cambia con una chiave segreta reale in produzione
+app.permanent_session_lifetime = timedelta(days=5) 
+
+def load_user_skills():
+    try:
+        # You can change this path to where you store the user_skills.json file
+        with open('output/skills.json', 'r') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        # Define a default data structure if file not found
+        return {
+            "technical_skills": [],
+            "soft_skills": [],
+            "languages": [],
+            "certifications": []
+        }
 
 
 # Sample data for dynamic content
@@ -366,13 +387,147 @@ resources_db = [
     }
 ]
 
+
+users_db = {
+    "lucabellante@example.com": {
+        "name": "Luca Bellante",
+        "password": generate_password_hash("password123"),
+        "user_id": 1,
+        "is_admin": False
+    },
+    "admin@example.com": {
+        "name": "Admin User",
+        "password": generate_password_hash("admin123"),
+        "user_id": 2,
+        "is_admin": True
+    }
+}
+
+# Decorator per richiedere autenticazione
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Devi effettuare il login per accedere a questa pagina', 'error')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+# Decorator per richiedere privilegi di admin
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Devi effettuare il login per accedere a questa pagina', 'error')
+            return redirect(url_for('login'))
+        
+        if not session.get('is_admin', False):
+            flash('Non hai i permessi per accedere a questa pagina', 'error')
+            return redirect(url_for('dashboard'))
+            
+        return f(*args, **kwargs)
+    return decorated_function
+
+# Configurazione per ogni richiesta
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user_id' in session:
+        # Recupera l'email dalla sessione
+        email = session.get('user_email')
+        if email in users_db:
+            # Crea un oggetto utente con tutte le informazioni necessarie
+            g.user = {
+                'user_id': users_db[email]['user_id'],
+                'name': users_db[email]['name'],
+                'email': email,
+                'is_admin': users_db[email]['is_admin']
+            }
+            # Assicurati che session['is_admin'] sia impostato correttamente
+            session['is_admin'] = users_db[email]['is_admin']
+
+# Route per login
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
+        
+        user = users_db.get(email)
+        
+        # Controlla se l'utente esiste e la password è corretta
+        if user and check_password_hash(user['password'], password):
+            session.permanent = remember
+            session['user_id'] = user['user_id']
+            session['user_name'] = user['name']
+            session['user_email'] = email
+            session['is_admin'] = user['is_admin']
+            
+            flash('Login effettuato con successo!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Email o password non validi', 'error')
+    
+    return render_template('login.html')
+
+# Route per logout
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Logout effettuato con successo', 'success')
+    return redirect(url_for('login'))
+
+# Aggiunta di un context processor per rendere disponibili
+# le informazioni dell'utente in tutte le pagine
+@app.context_processor
+def inject_user():
+    user_info = None
+    if 'user_id' in session:
+        user_info = {
+            'user_id': session.get('user_id'),
+            'name': session.get('user_name'),
+            'email': session.get('user_email'),
+            'is_admin': session.get('is_admin', False)
+        }
+    return {'user_info': user_info}
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+        
+        # Verifica se l'utente esiste già
+        if email in users_db:
+            flash('Indirizzo email già registrato', 'error')
+            return render_template('register.html')
+        
+        # Crea nuovo utente (non admin per default)
+        users_db[email] = {
+            "name": name,
+            "password": generate_password_hash(password),
+            "user_id": len(users_db) + 1,
+            "is_admin": False
+        }
+        
+        flash('Registrazione completata con successo! Effettua il login.', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
+
 @app.route('/')
+@login_required
 def dashboard():
     # Get user tasks
     user_tasks = [task for task_id, task in tasks_db.items()]
     
     # Get recommended courses based on user skills
     recommended_courses = []
+    user_skills = load_user_skills()
+
+    logging.info(user_skills)
     for course in courses_db:
         if len(recommended_courses) < 3:  # Limit to 3 courses for now
             recommended_courses.append(course)
@@ -380,25 +535,30 @@ def dashboard():
     return render_template('dashboard.html', 
                           user=user_data, 
                           user_tasks=user_tasks,
-                          recommended_courses=recommended_courses)
+                          recommended_courses=recommended_courses,
+                          user_skills=user_skills)
 
 @app.route('/onboarding')
+@login_required
 def onboarding():
     return render_template('onboardingPage.html', 
                            user=user_data)
 
 @app.route('/learning')
+@login_required
 def learning():
     return render_template('learning.html',
                            user=user_data)
 
 @app.route('/skills')
+@admin_required
 def skills():
     return render_template('manager-dashboard.html', 
                            user=user_data,
                            skills=skills_data)
 
 @app.route('/task/<int:task_id>')
+@login_required
 def task_detail(task_id):
     task = tasks_db.get(task_id)
     
@@ -418,11 +578,21 @@ def task_detail(task_id):
                           resources=task_resources)
 
 @app.route('/all_courses')
+@login_required
 def allCourses():
     return render_template('allCourses.html',
                            user=user_data)
 
+@app.route('/manager-dashboard')
+@admin_required
+def manager_dashboard():
+    # Qui puoi implementare la logica per la dashboard del manager
+    return render_template('manager-dashboard.html',
+                          user=user_data,
+                          skills=skills_data)
+
 @app.route('/upload-files', methods=['POST'])
+@login_required
 def upload_files():
     # Crea una sottocartella con timestamp per ogni upload
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
